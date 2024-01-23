@@ -21,19 +21,19 @@ export function MainLayout({ token }) {
 
             </Col>
             <Col flex="none">
-              <HomeFilled onClick={() => app.navigate("/home")} style={{ color: 'white', fontSize: '24px' }} />
+              <HomeFilled onClick={() => app.navigate("/")} style={{ color: 'white', fontSize: '24px' }} />
             </Col>
             <Col flex="auto">
 
             </Col>
             <Col flex="60px" className="avatar-column">
               <Tooltip placement="bottom" title="Impostazioni" color="#2db7f5">
-                <SettingOutlined style={{ color: 'white', fontSize: '32px', verticalAlign: 'middle' }} className="pointer" onClick={() => app.navigate("/settings")} />
+                <SettingOutlined style={{ color: 'white', fontSize: '32px', verticalAlign: 'middle' }} className="pointer" onClick={() => app.navigate("/home")} />
               </Tooltip>
             </Col>
             <Col flex="none">
               <Tooltip placement="bottom" title="Profilo" color="#264395">
-                <Avatar className="pointer avatar-pri" onClick={() => app.navigate("/profile")} size={36} icon={<UserOutlined />} />
+                <Avatar className="pointer avatar-pri" onClick={() => app.navigate("/home")} size={36} icon={<UserOutlined />} />
               </Tooltip>
             </Col>
           </Row>

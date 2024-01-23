@@ -1,16 +1,19 @@
 import { useWidget, Widget, core, ViewModel } from "@essenza/react";
+import { Button } from "antd";
 
 export function Welcome() {
     const vm = useWidget(WelcomeVM);
     return (
         <Widget>
-            <div>WELCOME</div>
-            <button onClick={e=>vm.emit("GO_HOME")}>USER ADMIN</button>
+            <div className="w-full">
+                <div className="text-center">WELCOME</div>
+                <Button className="mx-auto block" onClick={e => vm.emit("GO_HOME")}>GO HOME</Button>
+            </div>
         </Widget>
     )
 }
 
-export function WelcomeVM(){
+export function WelcomeVM() {
     ViewModel.call(this);
 }
 
