@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  button, [type='button'], [type='reset'], [type='submit']{
+    background-color: #055e35;
+    color: white;
+  }/*PER COMPATIBILITA' CON ANTD BUTTON*/
+}
+
+@layer components {
+  /*.btn-pri{
+    @apply bg-[#BF3A3A] hover:bg-[#ED5656] text-white font-bold py-2 px-4 rounded shadow w-full
+  }*/
+
+  .btn-dark {
+    @apply text-white font-bold py-2 px-4 rounded shadow transition duration-300 ease-in-out hover:bg-opacity-90
+  }
+
+  .btn-lite {
+    @apply font-bold py-2 px-4 rounded shadow transition duration-300 ease-in-out hover:brightness-95
+  }
+
+  .btn-ghost {
+    @apply font-bold py-2 px-4 rounded shadow border border-pri
+  }
+
+}
+
 body {
   margin: 0;
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -16,6 +42,6 @@ code {
     monospace;
 }
 
-#root{
+#root {
   height: 100%;
 }

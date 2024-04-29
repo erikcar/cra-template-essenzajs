@@ -1,53 +1,64 @@
-import {useApp} from "@essenza/react";
+import { useApp, useVM, ViewModel, core } from "@essenza/react";
 import { Outlet } from "react-router-dom";
-import { Avatar, Col, Layout, Row, Tooltip } from "antd";
+import { Avatar, Col, Layout, Menu, Row, Tooltip } from "antd";
 import React from 'react';
-import { UserOutlined, HomeFilled, SettingOutlined } from '@ant-design/icons';
-import { Logo } from "./logo";
+import { FaUser } from "react-icons/fa";
+import { IoMdSettings } from "react-icons/io";
+import Logo from "../assets/img/logo.png";
+import { TbBrandGoogleHome } from "react-icons/tb";
 
 const { Header, Content } = Layout;
 
 export function MainLayout({ token }) {
   const app = useApp();
+  const vm = useVM(LayoutVM);
   return (
-    <Layout className="layout">
-      <Layout className="layout">
-        <Header className="layout-header">
-          <Row>
-          <Col flex="none">
-              <Logo style={{ height: "36px" }} />
-            </Col>
-            <Col flex="auto">
+    <Layout className="bg-gradient-to-t bg-[#002a3a] h-screen flex flex-col">
+      <div className="flex items-center px-4 md:px-10 pt-1 static top-0 w-full z-0">
+        <img src={Logo} alt="Logo" className="max-h-6 flex-none" />
+        <TbBrandGoogleHome className="flex-none text-white text-2xl cursor-pointer ml-4" onClick={() => app.navigate("home")} />
 
-            </Col>
-            <Col flex="none">
-              <HomeFilled onClick={() => app.navigate("/")} style={{ color: 'white', fontSize: '24px' }} />
-            </Col>
-            <Col flex="auto">
+        <Menu className="bg-transparent text-white font-bold flex-auto min-w-0" onClick={e => vm.emit("MENU_NAV", e.key)} mode="horizontal" items={vm.items} />
 
-            </Col>
-            <Col flex="60px" className="avatar-column">
-              <Tooltip placement="bottom" title="Impostazioni" color="#2db7f5">
-                <SettingOutlined style={{ color: 'white', fontSize: '32px', verticalAlign: 'middle' }} className="pointer" onClick={() => app.navigate("/home")} />
-              </Tooltip>
-            </Col>
-            <Col flex="none">
-              <Tooltip placement="bottom" title="Profilo" color="#264395">
-                <Avatar className="pointer avatar-pri" onClick={() => app.navigate("/home")} size={36} icon={<UserOutlined />} />
-              </Tooltip>
-            </Col>
-          </Row>
-        </Header>
-        <Content
-          className="layout-bg layout-content"
-          style={{
-            padding: 0,
-            minHeight: 280,
-          }}
-        >
+        { app.role.authorize("ADMIN") && <IoMdSettings className="flex-none text-white text-2xl cursor-pointer mr-2" onClick={() => app.navigate("settings")} /> }
+        <FaUser onClick={() => app.navigate("profile")} className="flex-none text-white text-2xl cursor-pointer" />
+      </div>
+      <Content className="pb-4 pt-1 px-2 md:px-4 flex-1  flex">
+        <div className="px-2 md:px-4 pb-2 w-full bg-[#e3e7e9] rounded-md overflow-auto">
           <Outlet></Outlet>
-        </Content>
-      </Layout>
+        </div>
+      </Content>
     </Layout>
   );
 }
+
+export function LayoutVM() {
+  ViewModel.call(this);
+  this.current = "agenda";
+  this.items = [
+    {
+      label: 'AGENDA',
+      key: 'agenda',
+      //icon: <MailOutlined />,
+    },
+    {
+      label: 'PAZIENTI',
+      key: 'patient',
+      //icon: <AppstoreOutlined />,
+    },
+    {
+      label: 'DOCUMENTI',
+      key: 'document',
+      //icon: <AppstoreOutlined />,
+    },
+  ];
+}
+
+core.prototypeOf(ViewModel, LayoutVM, {
+  intent: { //swipe or override
+    MENU_NAV: function ({ context, data }) {
+      this.current = data;
+      context.navigate(data);
+    },
+  }
+});

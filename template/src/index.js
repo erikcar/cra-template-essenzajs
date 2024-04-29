@@ -10,19 +10,30 @@ import locale from 'antd/locale/it_IT';
 import { ConfigProvider } from 'antd';
 
 dayjs.locale('it');
-/* CSS Variables => vedi compatibilità
-
-ConfigProvider.config({
-  theme: {
-    primaryColor: '#25b864',
+const theme = {
+  token: {
+    colorPrimary: '#055e35',
+    colorBgElevated: "#ceedd0"
   },
-});
-*/
+  components: {
+    Button: {
+      defaultGhostBorderColor: '#055e35',
+      defaultGhostColor: '#000',
+      defaultBg: '#055e35',
+    },
+    Input: {
+      activeBg: "#F2F4F6"
+    },
+    Menu: {
+      itemHoverColor: '#FFFFFF'
+    },
+  },
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <ConfigProvider locale={locale}>
+  <ConfigProvider locale={locale} theme={theme}>
     <BrowserRouter basename="/">
       <App />
     </BrowserRouter>
